@@ -17,12 +17,12 @@ public class Main {
             }
             switch (option) {
                 case 1:
-                    System.out.println("Input your file directory:");
+                    System.out.println("Input the absolute path to your file:");
                     Scanner directory = new Scanner(System.in);
                     indexer.indexFile(directory.next());
                     break;
                 case 2:
-                    System.out.println("Input your directory:");
+                    System.out.println("Input the absolute path to your directory:");
                     Scanner directory2 = new Scanner(System.in);
                     indexer.indexDirectory(directory2.next());
                     break;

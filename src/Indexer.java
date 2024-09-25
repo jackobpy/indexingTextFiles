@@ -19,8 +19,12 @@ public class Indexer {
     public void indexFile(String pathname) {
         try {
             File file = new File(pathname);
+            if (!getFileExtension(pathname).equals("txt")){
+                System.out.println("Something went wrong :(");
+                return;
+            }
             Scanner scanner = new Scanner(file);
-            pathname = file.getPath();
+            pathname = file.getAbsolutePath();
             while(scanner.hasNextLine()){
                 List<String> tokens = tokenizer.tokenize(scanner.nextLine());
                 for (String token : tokens){
@@ -34,7 +38,7 @@ public class Indexer {
                     }
                 }
             }
-            System.out.println("File successfully indexed");
+            System.out.println(pathname + " successfully indexed");
         } catch (FileNotFoundException fnfe){
             System.out.println("File not found :(");
         }
@@ -46,12 +50,18 @@ public class Indexer {
             Files.walk(directory.toPath())
                     .filter(Files::isRegularFile)
                     .map(Path::toFile)
+                    .filter(x -> getFileExtension(x.getAbsolutePath()).equals("txt"))
                     .forEach(file -> {
-                        indexFile(file.getPath());
+                        indexFile(file.getAbsolutePath());
                     });
         } catch (IOException e) {
             System.out.println("No such directory found :(");
         }
 
+    }
+
+    public static String getFileExtension(String name) {
+        int dotIndex = name.lastIndexOf('.');
+        return (dotIndex == -1) ? "" : name.substring(dotIndex + 1);
     }
 }
